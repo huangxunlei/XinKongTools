@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+/build
+/captures
+/app/build
+/libraryUpdate/build
+/libraryLabel/build
+/universalvideoview/build
+.externalNativeBuild
