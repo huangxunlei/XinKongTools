@@ -2,12 +2,12 @@ package com.xingkong.xinkong_library;
 
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
+import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import cn.share.jack.cyghttp.convert.CustomGsonConverterFactory;
-import cn.share.jack.cyghttp.interceptor.BasicParamsInterceptor;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
