@@ -66,6 +66,10 @@ public class XKApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mMainThreadId = android.os.Process.myTid();
+        mMainThread = Thread.currentThread();
+        mMainThreadHandler = new Handler();
+        mMainLooper = getMainLooper();
     }
 
     public static XKApplication getInstance() {
@@ -74,9 +78,6 @@ public class XKApplication extends Application {
 
     protected XKApplication() {
         sInstance = this;
-        mMainThreadId = android.os.Process.myTid();
-        mMainThread = Thread.currentThread();
-        mMainThreadHandler = new Handler();
-        mMainLooper = getMainLooper();
+
     }
 }
