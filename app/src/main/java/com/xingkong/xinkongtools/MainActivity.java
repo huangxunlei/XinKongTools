@@ -1,5 +1,8 @@
 package com.xingkong.xinkongtools;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +27,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -42,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     InputStream is;
 
     // 输入流读取器对象
-    InputStreamReader isr ;
-    BufferedReader br ;
+    InputStreamReader isr;
+    BufferedReader br;
 
     // 接收服务器发送过来的消息
     String response;
@@ -63,14 +73,56 @@ public class MainActivity extends AppCompatActivity {
     private Button btnConnect, btnDisconnect, btnSend;
 
     // 显示接收服务器消息 按钮
-    private TextView Receive,receive_message;
+    private TextView Receive, receive_message;
 
     // 输入需要发送的消息 输入框
     private EditText mEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PgyCrashManager.register(this);
+
+        // 以对话框的形式弹出
+        //  PgyFeedback.getInstance().showDialog(MainActivity.this);
+
+// 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+// 打开沉浸式,默认为false
+// FeedbackActivity.setBarImmersive(true);
+        //  PgyFeedback.getInstance().showActivity(MainActivity.this);
+        //  PgyFeedback.getInstance().setMoreParam("tao", "value");
+
+        PgyUpdateManager.register(this, null, new UpdateManagerListener() {
+            @Override
+            public void onNoUpdateAvailable() {
+
+            }
+
+            @Override
+            public void onUpdateAvailable(String result) {
+                // 将新版本信息封装到AppBean中
+                Log.e("hxl", result);
+                final AppBean appBean = getAppBeanFromString(result);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("更新")
+                        .setMessage("")
+                        .setNegativeButton(
+                                "确定",
+                                new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        startDownloadTask(
+                                                MainActivity.this,
+                                                appBean.getDownloadURL());
+                                    }
+                                }).show();
+            }
+        });
         /**
          * 初始化操作
          */
@@ -157,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                             // 步骤4:通知主线程,将接收的消息显示到界面
                             Message msg = Message.obtain();
                             msg.what = 0;
-                            Log.e("hxl",response);
+                            Log.e("hxl", response);
                             mMainHandler.sendMessage(msg);
 
                         } catch (IOException e) {
@@ -189,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                             outputStream = socket.getOutputStream();
 
                             // 步骤2：写入需要发送的数据到输出流对象中
-                            outputStream.write((mEdit.getText().toString()+"\n").getBytes("utf-8"));
+                            outputStream.write((mEdit.getText().toString() + "\n").getBytes("utf-8"));
                             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
 
                             // 步骤3：发送数据到服务端
@@ -233,5 +285,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+
+        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+        PgyFeedbackShakeManager.setShakingThreshold(1000);
+        PgyCrashManager.register(this);
+        // 以对话框的形式弹出
+        PgyFeedbackShakeManager.register(MainActivity.this);
+
+        // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+        // 打开沉浸式,默认为false
+        // FeedbackActivity.setBarImmersive(true);
+        //   PgyFeedbackShakeManager.register(MainActivity.this, false);
+
+    }
+
+    public void login(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        PgyFeedbackShakeManager.unregister();
     }
 }
