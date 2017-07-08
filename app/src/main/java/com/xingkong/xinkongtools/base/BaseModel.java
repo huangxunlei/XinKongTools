@@ -36,8 +36,8 @@ public class BaseModel extends BaseRetrofit {
     @Override
     protected Map<String, String> getCommonMap() {
         Map<String, String> commonMap = new HashMap<>();
-        commonMap.put("userName", "hxl");
-        commonMap.put("password", "hxl");
+//        commonMap.put("userName", "hxl");
+//        commonMap.put("password", "hxl");
         return commonMap;
 
     }

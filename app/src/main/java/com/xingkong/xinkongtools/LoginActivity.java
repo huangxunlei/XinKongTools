@@ -31,7 +31,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         initView();
     }
 
@@ -53,7 +52,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>() {
             @Override
             protected void onBaseNext(UserDao data) {
-                Log.e("hxl", data.getUserName());
+                Log.e("hxl", data.getPwd());
             }
         });
     }

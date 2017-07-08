@@ -4,10 +4,10 @@
  */
 package com.xingkong.xinkongtools.bean;
 
-import android.util.Log;
-
 import com.xingkong.xinkong_library.HttpFunction;
 import com.xingkong.xinkongtools.base.BaseModel;
+
+import java.util.HashMap;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -24,9 +24,12 @@ public class LoginModel extends BaseModel {
         return getPresent(LoginModel.class);
     }
 
-    public void execute(UserDao userDao, Observer<UserDao> observer) {
-        Log.e("hxl", mParams.toString());
-        Observable observable = mServletApi.login(userDao ).map(new HttpFunction());
-        toSubscribe(observable, observer);
+    public void execute(UserDao userDao, Observer<UserDao> body) {
+        // Log.e("hxl", mParams.toString());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userName", userDao.getUserName());
+        map.put("pwd", userDao.getPwd());
+        Observable observable = mServletApi.login(map).map(new HttpFunction());
+        toSubscribe(observable, body);
     }
 }
