@@ -21,6 +21,6 @@ public class MyApplication extends XKApplication {
         super.onCreate();
 
         PgyCrashManager.register(this);
-        HttpServletAddress.getInstance().setOfflineAddress("http://192.70.6.101/");
+        HttpServletAddress.getInstance().setOfflineAddress("http://192.70.6.102/");
     }
 }

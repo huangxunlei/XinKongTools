@@ -4,7 +4,6 @@
  */
 package com.xingkong.xinkongtools.model;
 
-import android.database.Observable;
 
 import com.xingkong.xinkong_library.BaseResponse;
 import com.xingkong.xinkongtools.model.login.User;
@@ -13,6 +12,7 @@ import com.xingkong.xinkongtools.model.main.MainInfo;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -32,4 +32,6 @@ public interface XKApi {
     @FormUrlEncoded
     @POST("MainServlet")
     Observable<BaseResponse<List<MainInfo>>> getArticle(@FieldMap Map<String, String> params);
+
+
 }

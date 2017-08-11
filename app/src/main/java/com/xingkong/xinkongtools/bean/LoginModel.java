@@ -4,13 +4,18 @@
  */
 package com.xingkong.xinkongtools.bean;
 
+import com.xingkong.xinkong_library.BaseResponse;
 import com.xingkong.xinkong_library.HttpFunction;
 import com.xingkong.xinkongtools.base.BaseModel;
 
+import java.io.File;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * class description here
@@ -32,4 +37,14 @@ public class LoginModel extends BaseModel {
         Observable observable = mServletApi.login(map).map(new HttpFunction());
         toSubscribe(observable, body);
     }
+
+    public void uploadAatar(String path, Observer<BaseResponse<String>> observer) {
+        File file = new File(path);
+        String type = file.getName().substring(file.getName().indexOf(".") + 1);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/" + type), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+        Observable<BaseResponse<String>> observable = mServletApi.uploadAvatar(body);
+        toSubscribe(observable, observer);
+    }
+
 }

@@ -38,6 +38,7 @@ public abstract class BaseRetrofit {
             builder.addInterceptor(new BasicParamsInterceptor.Builder().addParamsMap(getCommonMap()).build());
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
             OkHttpClient okHttpClient = builder.build();
+
             RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "userName=1321&pwd=3213");
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(HttpServletAddress.getInstance().getServletAddress())

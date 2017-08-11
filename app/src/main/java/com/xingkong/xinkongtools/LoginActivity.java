@@ -5,15 +5,19 @@
 package com.xingkong.xinkongtools;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xingkong.xinkong_library.callback.BaseImpl;
 import com.xingkong.xinkong_library.callback.XKBaseObserver;
 import com.xingkong.xinkongtools.bean.LoginModel;
 import com.xingkong.xinkongtools.bean.UserDao;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * class description here
@@ -49,10 +53,26 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         userDao.setPwd(password);
         userDao.setUserName(userName);
         Log.e("hxl", userDao.toString());
-        LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>() {
+       /* LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>() {
             @Override
             protected void onBaseNext(UserDao data) {
                 Log.e("hxl", data.getPwd());
+            }
+        });*/
+        LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>(new BaseImpl() {
+            @Override
+            public boolean addDisposable(Disposable disposable) {
+                return true;
+            }
+
+            @Override
+            public Context getContext() {
+                return LoginActivity.this;
+            }
+        }, "加载中...") {
+            @Override
+            protected void onBaseNext(UserDao data) {
+
             }
         });
     }

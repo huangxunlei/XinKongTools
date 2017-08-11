@@ -43,7 +43,13 @@
 
     <Button
         android:layout_width="match_parent"
-        android:onClick="login"
         android:layout_height="wrap_content"
+        android:onClick="login"
         android:text="登录" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="uploadAvatar"
+        android:text="上传头像" />
 </LinearLayout>

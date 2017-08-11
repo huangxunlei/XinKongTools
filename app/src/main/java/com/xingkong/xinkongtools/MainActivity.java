@@ -3,9 +3,12 @@ package com.xingkong.xinkongtools;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +16,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
+import com.xingkong.xinkong_library.BaseResponse;
+import com.xingkong.xinkong_library.callback.XKBaseObserver;
+import com.xingkong.xinkongtools.bean.LoginModel;
+import com.xingkong.xinkongtools.model.XKApi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,6 +38,9 @@ import java.util.concurrent.Executors;
 
 
 public class MainActivity extends AppCompatActivity {
+    private String path;
+    private XKApi xkApi;
+    private static final int REQUEST_CODE_IMAGE = 0x008;
     /**
      * 主 变量
      */
@@ -84,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         PgyCrashManager.register(this);
+
 
         // 以对话框的形式弹出
         //  PgyFeedback.getInstance().showDialog(MainActivity.this);
@@ -309,10 +321,47 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
+    public void uploadAvatar(View view) {
+        //Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_CODE_IMAGE);
+    }
+
+
     @Override
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
         PgyFeedbackShakeManager.unregister();
     }
+
+
+    @Override
+
+    protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK) {
+
+            Uri uri = data.getData();
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                Log.e("hxl", path);
+                LoginModel.getInstance().uploadAatar(path, new XKBaseObserver<BaseResponse<String>>() {
+                    @Override
+                    protected void onBaseNext(BaseResponse<String> data) {
+                        Gson gson = new Gson();
+                        Log.e("hxl", gson.toJson(data));
+
+                    }
+                });
+
+            }
+
+        }
+
+    }
+
+
 }

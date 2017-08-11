@@ -10,7 +10,10 @@ import com.xingkong.xinkongtools.bean.UserDao;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.QueryMap;
 
 /**
@@ -22,5 +25,14 @@ import retrofit2.http.QueryMap;
  */
 public interface XkApi {
     @POST("login")
-    Observable<BaseResponse<UserDao>> login(@QueryMap HashMap<String, String> paramsMap);
+    Observable<BaseResponse<UserDao>> login(@QueryMap HashMap<String, String> params);
+    /**
+     * 上传头像
+     *
+     * @param file
+     * @return
+     */
+    @Multipart
+    @POST("upload4")
+    Observable<BaseResponse<String>> uploadAvatar(@Part MultipartBody.Part file);
 }
