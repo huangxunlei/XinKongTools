@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
 import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -12,9 +13,12 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 
@@ -37,6 +41,21 @@ public abstract class BaseRetrofit {
             //设置拦截器
             builder.addInterceptor(new BasicParamsInterceptor.Builder().addParamsMap(getCommonMap()).build());
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request request = chain.request()
+                            .newBuilder()
+                            .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                            .addHeader("Accept-Encoding", "gzip, deflate")
+                            .addHeader("Connection", "keep-alive")
+                            .addHeader("Accept", "*/*")
+                            .addHeader("Cookie", "add cookies here")
+                            .build();
+                    return chain.proceed(request);
+                }
+
+            });
             OkHttpClient okHttpClient = builder.build();
 
             RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "userName=1321&pwd=3213");

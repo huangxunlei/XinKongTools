@@ -52,4 +52,9 @@
         android:layout_height="wrap_content"
         android:onClick="uploadAvatar"
         android:text="上传头像" />
+
+    <com.xingkong.xinkong_library.widget.CircleImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/a260983575" />
 </LinearLayout>
