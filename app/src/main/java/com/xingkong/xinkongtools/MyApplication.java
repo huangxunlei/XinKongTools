@@ -4,7 +4,6 @@
  */
 package com.xingkong.xinkongtools;
 
-import com.pgyersdk.crash.PgyCrashManager;
 import com.xingkong.xinkong_library.HttpServletAddress;
 import com.xingkong.xinkong_library.app.XKApplication;
 
@@ -20,7 +19,7 @@ public class MyApplication extends XKApplication {
     public void onCreate() {
         super.onCreate();
 
-        PgyCrashManager.register(this);
-        HttpServletAddress.getInstance().setOfflineAddress("http://192.70.6.102/");
+      //  PgyCrashManager.register(this);
+        HttpServletAddress.getInstance().setOfflineAddress("http://192.168.1.136:8080/");
     }
 }

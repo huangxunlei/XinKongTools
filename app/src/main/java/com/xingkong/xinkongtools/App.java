@@ -11,6 +11,6 @@ public class App extends XKApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        HttpServletAddress.getInstance().setOfflineAddress("http://192.70.6.102/");
+        HttpServletAddress.getInstance().setOfflineAddress("http://192.168.1.136:8080/");
     }
 }

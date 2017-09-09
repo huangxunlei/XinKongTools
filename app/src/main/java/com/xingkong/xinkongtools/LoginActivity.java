@@ -12,10 +12,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.xingkong.xinkong_library.callback.BaseImpl;
 import com.xingkong.xinkong_library.callback.XKBaseObserver;
-import com.xingkong.xinkongtools.bean.LoginModel;
-import com.xingkong.xinkongtools.bean.UserDao;
+import com.xingkong.xinkongtools.bean.MemberInfo;
+import com.xingkong.xinkongtools.model.TeamModel;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 
@@ -47,18 +52,40 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        String password = mEtPassword.getText().toString();
+
+
+        Map<String, Object> map = new HashMap<>();
+        //Log.e("hxl", BdService.getInstance().getBdCardInfo().nCardID + "");
+        map.put("bdId", 356360);
+        TeamModel.getInstance().teamManger("getTeamAlseMumberApp", map, new XKBaseObserver<List<MemberInfo>>(new BaseImpl() {
+            @Override
+            public boolean addDisposable(Disposable disposable) {
+                return true;
+            }
+
+            @Override
+            public Context getContext() {
+                return LoginActivity.this;
+            }
+        }, "加载中...") {
+            @Override
+            protected void onBaseNext(List<MemberInfo> memberInfos) {
+                Gson gson = new Gson();
+                Log.e("hxl",gson.toJson(memberInfos));
+            }
+        });
+   /*     String password = mEtPassword.getText().toString();
         String userName = mEtUserName.getText().toString();
         UserDao userDao = new UserDao();
         userDao.setPwd(password);
         userDao.setUserName(userName);
         Log.e("hxl", userDao.toString());
-       /* LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>() {
+       *//* LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>() {
             @Override
             protected void onBaseNext(UserDao data) {
                 Log.e("hxl", data.getPwd());
             }
-        });*/
+        });*//*
         LoginModel.getInstance().execute(userDao, new XKBaseObserver<UserDao>(new BaseImpl() {
             @Override
             public boolean addDisposable(Disposable disposable) {
@@ -74,7 +101,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             protected void onBaseNext(UserDao data) {
 
             }
-        });
+        });*/
     }
 
 

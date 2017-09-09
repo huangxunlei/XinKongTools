@@ -84,6 +84,7 @@ public abstract class XKBaseObserver<T> extends BaseObserver<T> {
             }
         } else {
             XKToast.showToastSafe(t.getMessage());
+            Log.e(TAG, t.getMessage());
             return;
         }
         Log.e(TAG, "onBaseError: " + sb.toString());

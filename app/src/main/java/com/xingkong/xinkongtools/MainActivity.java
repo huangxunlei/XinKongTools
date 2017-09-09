@@ -1,7 +1,5 @@
 package com.xingkong.xinkongtools;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -17,11 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
 import com.xingkong.xinkong_library.BaseResponse;
 import com.xingkong.xinkong_library.callback.XKBaseObserver;
 import com.xingkong.xinkongtools.bean.LoginModel;
@@ -94,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PgyCrashManager.register(this);
+      //  PgyCrashManager.register(this);
+
+
 
 
         // 以对话框的形式弹出
@@ -106,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         //  PgyFeedback.getInstance().showActivity(MainActivity.this);
         //  PgyFeedback.getInstance().setMoreParam("tao", "value");
 
-        PgyUpdateManager.register(this, null, new UpdateManagerListener() {
+       /* PgyUpdateManager.register(this, null, new UpdateManagerListener() {
             @Override
             public void onNoUpdateAvailable() {
 
@@ -134,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }).show();
             }
-        });
+        });*/
         /**
          * 初始化操作
          */
@@ -304,11 +299,11 @@ public class MainActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onResume();
 
-        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+ /*       // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
         PgyFeedbackShakeManager.setShakingThreshold(1000);
         PgyCrashManager.register(this);
         // 以对话框的形式弹出
-        PgyFeedbackShakeManager.register(MainActivity.this);
+        PgyFeedbackShakeManager.register(MainActivity.this);*/
 
         // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
         // 打开沉浸式,默认为false
@@ -333,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        PgyFeedbackShakeManager.unregister();
+        //PgyFeedbackShakeManager.unregister();
     }
 
 
