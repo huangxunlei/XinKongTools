@@ -1,6 +1,7 @@
 package com.xingkong.xinkong_library.convert;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,7 +28,7 @@ public class CustomGsonConverterFactory extends Converter.Factory {
     }
 
     public static CustomGsonConverterFactory create() {
-        return create(new Gson());
+        return create(new GsonBuilder().serializeNulls().create());
     }
 
     public static CustomGsonConverterFactory create(Gson gson) {
