@@ -30,7 +30,7 @@ public abstract class BaseRetrofit {
 
     protected Retrofit mRetrofit;
     private static final int DEFAULT_TIME = 10;    //默认超时时间
-    private final long RETRY_TIMES = 1;   //重订阅次数
+    private final long RETRY_TIMES = 0;   //重订阅次数
 
     public BaseRetrofit() {
         //创建okHttpClient
@@ -75,7 +75,7 @@ public abstract class BaseRetrofit {
     protected <T> void toSubscribe(Observable<T> observable, Observer<T> observer) {
         observable.subscribeOn(Schedulers.io())    // 指定subscribe()发生在IO线程
                 .observeOn(AndroidSchedulers.mainThread())  // 指定Subscriber的回调发生在io线程
-             //   .timeout(DEFAULT_TIME, TimeUnit.O)    //重连间隔时间
+                .timeout(DEFAULT_TIME, TimeUnit.SECONDS)    //重连间隔时间
                 .retry(RETRY_TIMES)
 //                .repeatWhen(new Function<Observable<Object>, ObservableSource<?>>() {
 //                    @Override
