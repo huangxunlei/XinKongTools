@@ -2,6 +2,7 @@ package com.xingkong.xinkong_library;
 
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.xingkong.xinkong_library.app.LogLevel;
 import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
 import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
 
@@ -40,7 +41,7 @@ public abstract class BaseRetrofit {
 
             //设置拦截器
             builder.addInterceptor(new BasicParamsInterceptor.Builder().addParamsMap(getCommonMap()).build());
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(LogLevel.getInstance().getLevel()));
             builder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
@@ -74,7 +75,7 @@ public abstract class BaseRetrofit {
     protected <T> void toSubscribe(Observable<T> observable, Observer<T> observer) {
         observable.subscribeOn(Schedulers.io())    // 指定subscribe()发生在IO线程
                 .observeOn(AndroidSchedulers.mainThread())  // 指定Subscriber的回调发生在io线程
-                .timeout(DEFAULT_TIME, TimeUnit.SECONDS)    //重连间隔时间
+             //   .timeout(DEFAULT_TIME, TimeUnit.O)    //重连间隔时间
                 .retry(RETRY_TIMES)
 //                .repeatWhen(new Function<Observable<Object>, ObservableSource<?>>() {
 //                    @Override
@@ -96,7 +97,7 @@ public abstract class BaseRetrofit {
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
         return null;
     }
