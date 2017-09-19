@@ -1,7 +1,9 @@
 package com.xingkong.xinkong_library;
 
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.xingkong.xinkong_library.app.LogLevel;
+import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
 import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
 
 import java.io.IOException;
@@ -61,8 +63,8 @@ public abstract class BaseRetrofit {
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(HttpServletAddress.getInstance().getServletAddress())
                     .client(okHttpClient)
-                   /* .addConverterFactory(CustomGsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())*/
+                    .addConverterFactory(CustomGsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
         }
     }
