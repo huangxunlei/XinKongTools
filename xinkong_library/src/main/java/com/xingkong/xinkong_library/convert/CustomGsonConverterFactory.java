@@ -28,7 +28,8 @@ public class CustomGsonConverterFactory extends Converter.Factory {
     }
 
     public static CustomGsonConverterFactory create() {
-        return create(new GsonBuilder().serializeNulls().create());
+        return create(new GsonBuilder().serializeNulls()
+                .setLenient().create());
     }
 
     public static CustomGsonConverterFactory create(Gson gson) {
