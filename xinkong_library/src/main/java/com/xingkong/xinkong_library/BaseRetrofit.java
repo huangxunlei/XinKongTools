@@ -48,7 +48,7 @@ public abstract class BaseRetrofit {
                     Request request = chain.request()
                             .newBuilder()
                             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                            .addHeader("Accept-Encoding", "gzip, deflate")
+                           // .addHeader("Accept-Encoding", "gzip, deflate")
                             .addHeader("Connection", "keep-alive")
                             .addHeader("Accept", "*/*")
                             .addHeader("Cookie", "add cookies here")
@@ -58,7 +58,6 @@ public abstract class BaseRetrofit {
 
             });
             OkHttpClient okHttpClient = builder.build();
-
             RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "userName=1321&pwd=3213");
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(HttpServletAddress.getInstance().getServletAddress())
