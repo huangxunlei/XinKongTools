@@ -30,6 +30,7 @@ public class BaseModel extends BaseRetrofit {
 
     public BaseModel() {
         super();
+        token = SPUtils.getInstance().getString("id");
         mServletApi = mRetrofit.create(XkApi.class);
     }
 

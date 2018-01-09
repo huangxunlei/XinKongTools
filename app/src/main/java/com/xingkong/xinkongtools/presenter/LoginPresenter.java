@@ -13,4 +13,6 @@ import com.xingkong.xinkongtools.base.BasePresenter;
  * @since 2017-07-02 23:40
  */
 public class LoginPresenter extends BasePresenter{
+
+
 }

@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.xingkong.xinkong_library.BaseResponse;
 import com.xingkong.xinkong_library.callback.XKBaseObserver;
 import com.xingkong.xinkongtools.bean.LoginModel;
+import com.xingkong.xinkongtools.model.TeamModel;
 import com.xingkong.xinkongtools.model.XKApi;
 
 import java.io.BufferedReader;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     // 输出流对象
     OutputStream outputStream;
 
+    private String token;
+
     /**
      * 按钮 变量
      */
@@ -87,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  PgyCrashManager.register(this);
-
-
+        //  PgyCrashManager.register(this);
 
 
         // 以对话框的形式弹出
@@ -229,10 +230,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+/*
 
-        /**
-         * 发送消息 给 服务器
-         */
+        */
+/**
+ * 发送消息 给 服务器
+ *//*
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+*/
 
 
         /**
@@ -313,7 +318,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        startActivity(new Intent(this, LoginActivity.class));
+        token = TeamModel.getInstance().login();
+        Log.e("hxl", "token:"+token);
+        //startActivity(new Intent(this, LoginActivity.class));
+    }
+
+
+    public void info(View view) {
+        TeamModel.getInstance().info(token);
+        //startActivity(new Intent(this, LoginActivity.class));
     }
 
     public void uploadAvatar(View view) {

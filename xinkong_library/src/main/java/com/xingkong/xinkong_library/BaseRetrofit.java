@@ -2,6 +2,7 @@ package com.xingkong.xinkong_library;
 
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.xingkong.xinkong_library.app.HttpRequestHeader;
 import com.xingkong.xinkong_library.app.LogLevel;
 import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
 import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
@@ -32,6 +33,8 @@ public abstract class BaseRetrofit {
     private static final int DEFAULT_TIME = 10;    //默认超时时间
     private final long RETRY_TIMES = 0;   //重订阅次数
 
+    public String token;
+
     public BaseRetrofit() {
         //创建okHttpClient
         if (null == mRetrofit) {
@@ -48,10 +51,11 @@ public abstract class BaseRetrofit {
                     Request request = chain.request()
                             .newBuilder()
                             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-                           // .addHeader("Accept-Encoding", "gzip, deflate")
+                            // .addHeader("Accept-Encoding", "gzip, deflate")
                             .addHeader("Connection", "keep-alive")
                             .addHeader("Accept", "*/*")
                             .addHeader("Cookie", "add cookies here")
+                            .addHeader("token",token+"")
                             .build();
                     return chain.proceed(request);
                 }
@@ -96,7 +100,7 @@ public abstract class BaseRetrofit {
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
         return null;
     }

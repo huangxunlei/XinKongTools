@@ -24,6 +24,6 @@ public class LoginModel extends BaseModel {
         addParams("username", phone);
         addParams("password", password);
         //Observable observable = mServletApi.getUserInfo(mParams).map();
-       // toSubscribe(observable, observer);
+        // toSubscribe(observable, observer);
     }
 }
