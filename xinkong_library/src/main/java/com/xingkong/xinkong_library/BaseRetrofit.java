@@ -8,6 +8,7 @@ import com.xingkong.xinkong_library.convert.CustomGsonConverterFactory;
 import com.xingkong.xinkong_library.interceptor.BasicParamsInterceptor;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -41,6 +42,7 @@ public abstract class BaseRetrofit {
             OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
             builder.readTimeout(DEFAULT_TIME, TimeUnit.SECONDS);
             builder.connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS);
+            builder.proxy(Proxy.NO_PROXY);
 
             //设置拦截器
             builder.addInterceptor(new BasicParamsInterceptor.Builder().addParamsMap(getCommonMap()).build());
@@ -55,15 +57,14 @@ public abstract class BaseRetrofit {
                             .addHeader("Connection", "keep-alive")
                             .addHeader("Accept", "*/*")
                             .addHeader("Cookie", "add cookies here")
-                            .addHeader("token",token+"")
+                            .addHeader("token", token + "")
                             .build();
                     return chain.proceed(request);
                 }
 
             });
             OkHttpClient okHttpClient = builder.build();
-            RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "userName=1321&pwd=3213");
-            mRetrofit = new Retrofit.Builder()
+           mRetrofit = new Retrofit.Builder()
                     .baseUrl(HttpServletAddress.getInstance().getServletAddress())
                     .client(okHttpClient)
                     .addConverterFactory(CustomGsonConverterFactory.create())
